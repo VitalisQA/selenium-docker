@@ -1,4 +1,4 @@
-FROM openjdk:8u191-jre-alpine3.8
+FROM adoptopenjdk/openjdk8:alpine-jre
 
 RUN apk add curl jq
 
@@ -20,9 +20,11 @@ ADD search-module.xml					search-module.xml
 
 # ADD health check script
 ADD healthcheck.sh                      healthcheck.sh
+RUN dos2unix healthcheck.sh
 
 # BROWSER
 # HUB_HOST
 # MODULE
 
+#ENTRYPOINT java -cp selenium-docker.jar:selenium-docker-tests.jar:libs/* -DBROWSER=$BROWSER -DHUB_HOST=$HUB_HOST org.testng.TestNG $MODULE
 ENTRYPOINT sh healthcheck.sh
